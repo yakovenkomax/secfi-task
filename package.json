@@ -7,16 +7,133 @@
     "start": "next start",
     "lint": "next lint"
   },
+  "eslintConfig": {
+    "extends": [
+      "next/core-web-vitals",
+      "react-app",
+      "prettier",
+      "plugin:prettier/recommended",
+      "plugin:@typescript-eslint/recommended"
+    ],
+    "plugins": [
+      "prettier"
+    ],
+    "rules": {
+      "prettier/prettier": [
+        "error",
+        {
+          "printWidth": 120,
+          "tabWidth": 2,
+          "singleQuote": true,
+          "trailingComma": "all",
+          "proseWrap": "always",
+          "arrowParens": "avoid"
+        }
+      ],
+      "no-use-before-define": "off",
+      "no-console": "warn",
+      "no-debugger": "error",
+      "no-shadow": "off",
+      "@typescript-eslint/no-shadow": [
+        "error"
+      ],
+      "no-unused-vars": "off",
+      "react/jsx-props-no-spreading": "off",
+      "react-hooks/exhaustive-deps": "warn",
+      "import/no-default-export": "error",
+      "import/order": [
+        "error",
+        {
+          "groups": [
+            [
+              "external",
+              "builtin"
+            ],
+            [
+              "internal"
+            ],
+            [
+              "parent",
+              "sibling",
+              "index"
+            ]
+          ],
+          "newlines-between": "always"
+        }
+      ],
+      "@typescript-eslint/no-unused-vars": "error",
+      "@typescript-eslint/no-explicit-any": "error",
+      "@typescript-eslint/explicit-function-return-type": "off",
+      "@typescript-eslint/no-empty-function": "off",
+      "@typescript-eslint/explicit-module-boundary-types": "off",
+      "padding-line-between-statements": [
+        "error",
+        {
+          "blankLine": "always",
+          "prev": "*",
+          "next": [
+            "return",
+            "if",
+            "switch"
+          ]
+        }
+      ]
+    },
+    "settings": {
+      "import/resolver": {
+        "node": {
+          "paths": [
+            "src"
+          ],
+          "moduleDirectory": [
+            "node_modules",
+            "src/"
+          ],
+          "extensions": [
+            ".ts",
+            ".tsx"
+          ]
+        }
+      }
+    },
+    "overrides": [
+      {
+        "files": [
+          "src/pages/api/**/*.*",
+          "src/pages/**/index.{ts,tsx}",
+          "src/pages/**/\\[[a-z.]*\\].tsx",
+          "_app.tsx",
+          "_document.tsx",
+          "_error.tsx",
+          "404.tsx",
+          "src/components/**/*.stories.tsx"
+        ],
+        "rules": {
+          "import/no-default-export": "off"
+        }
+      }
+    ]
+  },
   "dependencies": {
     "next": "12.0.10",
+    "qs": "^6.10.3",
     "react": "17.0.2",
-    "react-dom": "17.0.2"
+    "react-dom": "17.0.2",
+    "react-query": "^3.34.14"
   },
   "devDependencies": {
     "@types/node": "17.0.17",
+    "@types/qs": "^6.9.7",
     "@types/react": "17.0.39",
     "eslint": "8.8.0",
     "eslint-config-next": "12.0.10",
+    "eslint-config-prettier": "^8.3.0",
+    "eslint-config-react-app": "^7.0.0",
+    "eslint-plugin-import": "^2.25.4",
+    "eslint-plugin-prettier": "^4.0.0",
+    "eslint-plugin-react": "^7.28.0",
+    "eslint-plugin-react-hooks": "^4.3.0",
+    "prettier": "^2.5.1",
     "typescript": "4.5.5"
   }
 }

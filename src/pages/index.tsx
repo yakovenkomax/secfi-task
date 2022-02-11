@@ -1,5 +1,5 @@
 import { HomePage } from 'src/components/HomePage/HomePage';
 
-const Home = HomePage
+const Home = HomePage;
 
-export default Home
+export default Home;
