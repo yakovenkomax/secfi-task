@@ -1,7 +1,7 @@
-import { fetcher, FetcherFunction } from 'src/api/fetcher';
-import { Currency } from 'src/api/types';
+import { fetcher } from 'src/api/fetcher';
+import { Currency, FetcherFunction } from 'src/api/types';
 
-type CurrencyRate = {
+type CurrencyRateData = {
   'Realtime Currency Exchange Rate': {
     '1. From_Currency Code': Currency;
     '2. From_Currency Name': string;
@@ -21,5 +21,5 @@ export type CurrencyRateFetcherParams = {
 };
 
 export const currencyRateFetcher = (params: CurrencyRateFetcherParams) => {
-  return fetcher<CurrencyRate>({ function: FetcherFunction.CURRENCY_EXCHANGE_RATE, ...params });
+  return fetcher<CurrencyRateData>({ function: FetcherFunction.CURRENCY_EXCHANGE_RATE, ...params });
 };

@@ -1,10 +1,10 @@
 import qs from 'qs';
 
-export enum FetcherFunction {
-  CURRENCY_EXCHANGE_RATE = 'CURRENCY_EXCHANGE_RATE',
-}
+type ApiLimitExceededError = {
+  Note: string;
+};
 
-type Fetcher = <T>(params: Record<string, string>) => Promise<T>;
+type Fetcher = <T>(params: Record<string, string>) => Promise<T | ApiLimitExceededError>;
 
 export const fetcher: Fetcher = async params => {
   const query = qs.stringify(params);

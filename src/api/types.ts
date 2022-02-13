@@ -1,3 +1,8 @@
+export enum FetcherFunction {
+  CURRENCY_EXCHANGE_RATE = 'CURRENCY_EXCHANGE_RATE',
+  FX_DAILY = 'FX_DAILY',
+}
+
 export enum Currency {
   AED = 'AED',
   AFN = 'AFN',
