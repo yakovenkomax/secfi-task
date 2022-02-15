@@ -1,3 +1,5 @@
+import { QueryFunction } from 'react-query/types/core/types';
+
 import { fetcher } from 'src/api/fetcher';
 import { Currency, FetcherFunction } from 'src/api/types';
 
@@ -15,11 +17,25 @@ type CurrencyRateData = {
   };
 };
 
-export type CurrencyRateFetcherParams = {
-  from_currency: Currency;
-  to_currency: Currency;
-};
+export const currencyRateFetcher: QueryFunction<number> = async params => {
+  const { queryKey } = params;
+  const [from_currency, to_currency] = queryKey;
 
-export const currencyRateFetcher = (params: CurrencyRateFetcherParams) => {
-  return fetcher<CurrencyRateData>({ function: FetcherFunction.CURRENCY_EXCHANGE_RATE, ...params });
+  if (typeof from_currency !== 'string' || typeof to_currency !== 'string') {
+    throw new Error('Wrong query key');
+  }
+
+  const currencyRateData = await fetcher<CurrencyRateData>({
+    function: FetcherFunction.CURRENCY_EXCHANGE_RATE,
+    from_currency,
+    to_currency,
+  });
+
+  if (!currencyRateData || !('Realtime Currency Exchange Rate' in currencyRateData)) {
+    throw new Error('API limit exceeded');
+  }
+
+  const rate = Number(currencyRateData['Realtime Currency Exchange Rate']['5. Exchange Rate']);
+
+  return rate;
 };
