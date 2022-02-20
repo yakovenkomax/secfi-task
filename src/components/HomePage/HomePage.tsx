@@ -125,8 +125,8 @@ export const HomePage = () => {
           placeholder="Select currency"
           onChange={handleSelectTwoChange}
         />
-        <Input type="number" value={formState.amount[Side.ONE]} onChange={handleInputOneChange} />
-        <Input type="number" value={formState.amount[Side.TWO]} onChange={handleInputTwoChange} />
+        <Input type="number" value={formState.amount[Side.ONE] || ''} onChange={handleInputOneChange} />
+        <Input type="number" value={formState.amount[Side.TWO] || ''} onChange={handleInputTwoChange} />
       </main>
     </div>
   );
