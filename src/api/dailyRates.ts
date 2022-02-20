@@ -1,3 +1,5 @@
+import { QueryFunction } from 'react-query/types/core/types';
+
 import { fetcher } from 'api/fetcher';
 import { Currency, FetcherFunction } from 'api/types';
 
@@ -20,12 +22,37 @@ type DailyRateData = {
   };
 };
 
-export type DailyRatesFetcherParams = {
-  from_symbol: Currency;
-  to_symbol: Currency;
-  outputsize?: 'compact' | 'full';
+export type DailyRate = {
+  name: string;
+  value: number;
 };
 
-export const dailyRatesFetcher = (params: DailyRatesFetcherParams) => {
-  return fetcher<DailyRateData>({ function: FetcherFunction.FX_DAILY, ...params });
+export const dailyRatesFetcher: QueryFunction<DailyRate[]> = async params => {
+  const { queryKey } = params;
+  const [, from_symbol, to_symbol] = queryKey;
+
+  if (typeof from_symbol !== 'string' || typeof to_symbol !== 'string') {
+    throw new Error('Wrong query key');
+  }
+
+  const dailyRatesData = await fetcher<DailyRateData>({
+    function: FetcherFunction.FX_DAILY,
+    from_symbol,
+    to_symbol,
+  });
+
+  if (!dailyRatesData || !('Time Series FX (Daily)' in dailyRatesData)) {
+    throw new Error('API limit exceeded');
+  }
+
+  const dailyRates = dailyRatesData['Time Series FX (Daily)'];
+  const dailyRatesArray = Object.keys(dailyRates)
+    .map(key => ({
+      name: new Date(key).toLocaleString('default', { month: 'short', day: 'numeric' }),
+      value: Number(dailyRates[key]['4. close']),
+    }))
+    .slice(0, 29)
+    .reverse();
+
+  return dailyRatesArray;
 };

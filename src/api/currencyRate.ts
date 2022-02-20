@@ -19,7 +19,7 @@ type CurrencyRateData = {
 
 export const currencyRateFetcher: QueryFunction<number> = async params => {
   const { queryKey } = params;
-  const [from_currency, to_currency] = queryKey;
+  const [, from_currency, to_currency] = queryKey;
 
   if (typeof from_currency !== 'string' || typeof to_currency !== 'string') {
     throw new Error('Wrong query key');

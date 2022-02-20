@@ -21,7 +21,7 @@ export const Select = (props: SelectProps) => {
 
   return (
     <div className="relative">
-      <select className="input pr-8" value={value} onChange={onChange}>
+      <select className="input pr-8 w-full h-full items-center" value={value} onChange={onChange}>
         {placeholder && (
           <option key="placeholder" value={EMPTY_VALUE}>
             {placeholder}
