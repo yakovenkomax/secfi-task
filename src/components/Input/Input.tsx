@@ -19,5 +19,5 @@ export const Input = (props: InputProps) => {
     }
   };
 
-  return <input type={type} value={value} onChange={handleChange} />;
+  return <input className="input" type={type} value={value} onChange={handleChange} />;
 };

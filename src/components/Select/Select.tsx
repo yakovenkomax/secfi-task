@@ -1,5 +1,7 @@
 import { ChangeEventHandler } from 'react';
 
+import ArrowSvg from './arrow.svg';
+
 export type SelectItem = {
   label: string;
   value: string;
@@ -18,17 +20,20 @@ export const Select = (props: SelectProps) => {
   const { items, value = EMPTY_VALUE, placeholder, onChange } = props;
 
   return (
-    <select value={value} onChange={onChange}>
-      {placeholder && (
-        <option key="placeholder" value={EMPTY_VALUE}>
-          {placeholder}
-        </option>
-      )}
-      {items.map(item => (
-        <option key={item.value} value={item.value}>
-          {item.label}
-        </option>
-      ))}
-    </select>
+    <div className="relative">
+      <select className="input pr-8" value={value} onChange={onChange}>
+        {placeholder && (
+          <option key="placeholder" value={EMPTY_VALUE}>
+            {placeholder}
+          </option>
+        )}
+        {items.map(item => (
+          <option key={item.value} value={item.value}>
+            {item.label}
+          </option>
+        ))}
+      </select>
+      <ArrowSvg className="absolute right-1 top-1/2 -mt-4 w-8 h-8 fill-neutral-400 pointer-events-none" />
+    </div>
   );
 };

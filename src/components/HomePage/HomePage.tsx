@@ -105,14 +105,14 @@ export const HomePage = () => {
   };
 
   return (
-    <div>
+    <div className="flex justify-center align-middle">
       <Head>
         <title>Currency Converter</title>
         <meta name="description" content="Test assignment for Secfi" />
         <link rel="icon" href="/favicon.ico" />
       </Head>
 
-      <main>
+      <main className="p-4 grid grid-cols-2 grid-rows-2 gap-4">
         <Select
           items={selectItems}
           value={formState.symbol[Side.ONE]}

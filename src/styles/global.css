@@ -1,0 +1,30 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@layer base {
+  html {
+    font-family: 'Inter', sans-serif;
+  }
+
+  html {
+    @apply h-full
+  }
+
+  body {
+    @apply min-h-full flex justify-center items-center
+  }
+
+  input::-webkit-outer-spin-button,
+  input::-webkit-inner-spin-button {
+    -webkit-appearance: none;
+    margin: 0;
+  }
+}
+
+@layer components {
+  .input {
+    @apply max-w-full border-2 rounded-md p-2 focus:outline-none focus:border-blue-400
+  }
+}
+
