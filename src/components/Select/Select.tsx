@@ -25,7 +25,7 @@ export const Select = (props: SelectProps) => {
         </option>
       )}
       {items.map(item => (
-        <option key={item.value} value={item.value} selected={item.value === value}>
+        <option key={item.value} value={item.value}>
           {item.label}
         </option>
       ))}

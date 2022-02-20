@@ -1,7 +1,7 @@
 import { QueryFunction } from 'react-query/types/core/types';
 
-import { fetcher } from 'src/api/fetcher';
-import { Currency, FetcherFunction } from 'src/api/types';
+import { fetcher } from 'api/fetcher';
+import { Currency, FetcherFunction } from 'api/types';
 
 type CurrencyRateData = {
   'Realtime Currency Exchange Rate': {

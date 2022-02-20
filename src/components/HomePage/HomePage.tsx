@@ -1,63 +1,53 @@
 import Head from 'next/head';
-import { ChangeEvent, useState } from 'react';
+import { ChangeEvent, useReducer } from 'react';
 import { useQuery } from 'react-query';
 
-import { currencyRateFetcher } from 'src/api/currencyRate';
-// import { dailyRatesFetcher } from 'src/api/dailyRates';
-import { Currency, CurrencyNameMap } from 'src/api/types';
-import { Input } from 'src/components/Input/Input';
-import { Select } from 'src/components/Select/Select';
+import { currencyRateFetcher } from 'api/currencyRate';
+// import { dailyRatesFetcher } from 'api/dailyRates';
+import { Currency, CurrencyNameMap } from 'api/types';
+import {
+  ConverterActionType,
+  converterReducer,
+  initialConverterState,
+  Side,
+} from 'components/HomePage/converterReducer/converterReducer';
+import { Input } from 'components/Input/Input';
+import { Select } from 'components/Select/Select';
 
-const selectItems = Object.values(Currency).map(symbol => ({
-  label: CurrencyNameMap[symbol],
-  value: symbol,
-}));
-
-enum Side {
-  ONE,
-  TWO,
-}
-
-type FormState = {
-  symbolOne: Currency | undefined;
-  symbolTwo: Currency | undefined;
-  amountOne: number | '';
-  amountTwo: number | '';
-  lastChanged: Side | undefined;
-};
-
-const initialState: FormState = {
-  symbolOne: undefined,
-  symbolTwo: undefined,
-  amountOne: '',
-  amountTwo: '',
-  lastChanged: undefined,
-};
-
-export const HomePage = () => {
-  const [formState, setFormState] = useState<FormState>(initialState);
-
-  const handleRateLoaded = (rate: number) => {
-    if (formState.lastChanged === Side.ONE) {
-      setFormState({
-        ...formState,
-        ...(formState.amountOne && { amountTwo: formState.amountOne * rate }),
-      });
-
-      return;
+const selectItems = Object.values(Currency)
+  .map(symbol => ({
+    label: CurrencyNameMap[symbol],
+    value: symbol,
+  }))
+  .sort((a, b) => {
+    if (a.label < b.label) {
+      return -1;
     }
 
-    setFormState({
-      ...formState,
-      ...(formState.amountTwo && { amountOne: formState.amountTwo / rate }),
+    if (a.label > b.label) {
+      return 1;
+    }
+
+    return 0;
+  });
+
+export const HomePage = () => {
+  const [formState, dispatch] = useReducer(converterReducer, initialConverterState);
+
+  const handleRateLoaded = (updatedRate: number) => {
+    dispatch({
+      type: ConverterActionType.UPDATE_RATE,
+      payload: {
+        rate: updatedRate,
+      },
     });
   };
 
   const { data: currencyRate } = useQuery<number, Error>(
-    [formState.symbolOne, formState.symbolTwo],
+    [formState.symbol[Side.ONE], formState.symbol[Side.TWO]],
     currencyRateFetcher,
     {
-      enabled: Boolean(formState.symbolOne && formState.symbolTwo),
+      enabled: Boolean(formState.symbol[Side.ONE] && formState.symbol[Side.TWO]),
       onSuccess: handleRateLoaded,
     },
   );
@@ -71,40 +61,46 @@ export const HomePage = () => {
   // );
 
   const handleSelectOneChange = (event: ChangeEvent<HTMLSelectElement>) => {
-    setFormState({
-      ...formState,
-      symbolOne: event.target.value as Currency,
-      ...(currencyRate && formState.amountOne && { amountTwo: formState.amountOne * currencyRate }),
+    dispatch({
+      type: ConverterActionType.SET_CURRENCY,
+      payload: {
+        symbol: event.target.value as Currency,
+        side: Side.ONE,
+        rate: currencyRate,
+      },
     });
   };
 
   const handleSelectTwoChange = (event: ChangeEvent<HTMLSelectElement>) => {
-    setFormState({
-      ...formState,
-      symbolTwo: event.target.value as Currency,
-      ...(currencyRate && formState.amountTwo && { amountOne: formState.amountTwo / currencyRate }),
+    dispatch({
+      type: ConverterActionType.SET_CURRENCY,
+      payload: {
+        symbol: event.target.value as Currency,
+        side: Side.TWO,
+        rate: currencyRate,
+      },
     });
   };
 
   const handleInputOneChange = (event: ChangeEvent<HTMLInputElement>) => {
-    const isValueCleared = event.target.value === '';
-
-    setFormState({
-      ...formState,
-      amountOne: isValueCleared ? '' : event.target.valueAsNumber,
-      ...(currencyRate && !isValueCleared && { amountTwo: event.target.valueAsNumber * currencyRate }),
-      lastChanged: Side.ONE,
+    dispatch({
+      type: ConverterActionType.SET_AMOUNT,
+      payload: {
+        amount: event.target.valueAsNumber,
+        side: Side.ONE,
+        rate: currencyRate,
+      },
     });
   };
 
   const handleInputTwoChange = (event: ChangeEvent<HTMLInputElement>) => {
-    const isValueCleared = event.target.value === '';
-
-    setFormState({
-      ...formState,
-      amountTwo: isValueCleared ? '' : event.target.valueAsNumber,
-      ...(currencyRate && !isValueCleared && { amountOne: event.target.valueAsNumber / currencyRate }),
-      lastChanged: Side.TWO,
+    dispatch({
+      type: ConverterActionType.SET_AMOUNT,
+      payload: {
+        amount: event.target.valueAsNumber,
+        side: Side.TWO,
+        rate: currencyRate,
+      },
     });
   };
 
@@ -119,18 +115,18 @@ export const HomePage = () => {
       <main>
         <Select
           items={selectItems}
-          value={formState.symbolOne}
+          value={formState.symbol[Side.ONE]}
           placeholder="Select currency"
           onChange={handleSelectOneChange}
         />
         <Select
           items={selectItems}
-          value={formState.symbolTwo}
+          value={formState.symbol[Side.TWO]}
           placeholder="Select currency"
           onChange={handleSelectTwoChange}
         />
-        <Input type="number" value={formState.amountOne} onChange={handleInputOneChange} />
-        <Input type="number" value={formState.amountTwo} onChange={handleInputTwoChange} />
+        <Input type="number" value={formState.amount[Side.ONE]} onChange={handleInputOneChange} />
+        <Input type="number" value={formState.amount[Side.TWO]} onChange={handleInputTwoChange} />
       </main>
     </div>
   );

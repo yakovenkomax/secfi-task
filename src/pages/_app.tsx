@@ -1,5 +1,5 @@
-import 'src/styles/reset.css';
-import 'src/styles/normalize.css';
+import 'styles/reset.css';
+import 'styles/normalize.css';
 import type { AppProps } from 'next/app';
 import { QueryClient, QueryClientProvider } from 'react-query';
 

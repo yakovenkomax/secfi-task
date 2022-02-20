@@ -1,5 +1,5 @@
-import { fetcher } from 'src/api/fetcher';
-import { Currency, FetcherFunction } from 'src/api/types';
+import { fetcher } from 'api/fetcher';
+import { Currency, FetcherFunction } from 'api/types';
 
 type DailyRateData = {
   'Meta Data': {
