@@ -7,7 +7,7 @@ import {
   SetAmountAction,
   UpdateRateAction,
   Side,
-} from 'components/HomePage/converterReducer/converterReducer';
+} from 'components/CurrencyConverter/converterReducer/converterReducer';
 
 const emptyState: ConverterState = {
   symbol: {

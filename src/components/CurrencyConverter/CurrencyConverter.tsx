@@ -1,21 +1,21 @@
-import Head from 'next/head';
 import { ChangeEvent, useReducer } from 'react';
 import { useQuery } from 'react-query';
 import { Area, AreaChart, CartesianGrid, ResponsiveContainer, Tooltip, XAxis, YAxis } from 'recharts';
 import { AxisDomain } from 'recharts/types/util/types';
 
-import { DailyRatesTrend, getDailyRatesTrend } from 'components/HomePage/HomePage.utils';
 import { currencyRateFetcher } from 'api/currencyRate';
 import { DailyRate, dailyRatesFetcher } from 'api/dailyRates';
 import { Currency, CurrencyNameMap } from 'api/types';
+import { Input } from 'components/Input/Input';
+import { Select } from 'components/Select/Select';
+
 import {
   ConverterActionType,
   converterReducer,
   initialConverterState,
   Side,
-} from 'components/HomePage/converterReducer/converterReducer';
-import { Input } from 'components/Input/Input';
-import { Select } from 'components/Select/Select';
+} from './converterReducer/converterReducer';
+import { DailyRatesTrend, getDailyRatesTrend } from './CurrencyConverter.utils';
 
 const selectItems = Object.values(Currency)
   .map(symbol => ({
@@ -34,7 +34,7 @@ const selectItems = Object.values(Currency)
     return 0;
   });
 
-export const HomePage = () => {
+export const CurrencyConverter = () => {
   const [formState, dispatch] = useReducer(converterReducer, initialConverterState);
 
   const handleRateLoaded = (updatedRate: number) => {
@@ -121,69 +121,61 @@ export const HomePage = () => {
   const strokeColor = strokeColorMap[dailyRatesTrend];
 
   return (
-    <div className="flex justify-center">
-      <Head>
-        <title>Currency Converter</title>
-        <meta name="description" content="Test assignment for Secfi" />
-        <link rel="icon" href="/favicon.ico" />
-      </Head>
+    <>
+      <div className="p-4 grid grid-cols-2 grid-rows-2 gap-4">
+        <Select
+          items={selectItems}
+          value={formState.symbol[Side.ONE]}
+          placeholder="Select currency"
+          onChange={handleSelectOneChange}
+        />
+        <Select
+          items={selectItems}
+          value={formState.symbol[Side.TWO]}
+          placeholder="Select currency"
+          onChange={handleSelectTwoChange}
+        />
+        <Input type="number" value={formState.amount[Side.ONE] || ''} onChange={handleInputOneChange} />
+        <Input type="number" value={formState.amount[Side.TWO] || ''} onChange={handleInputTwoChange} />
+      </div>
 
-      <main>
-        <div className="p-4 grid grid-cols-2 grid-rows-2 gap-4">
-          <Select
-            items={selectItems}
-            value={formState.symbol[Side.ONE]}
-            placeholder="Select currency"
-            onChange={handleSelectOneChange}
-          />
-          <Select
-            items={selectItems}
-            value={formState.symbol[Side.TWO]}
-            placeholder="Select currency"
-            onChange={handleSelectTwoChange}
-          />
-          <Input type="number" value={formState.amount[Side.ONE] || ''} onChange={handleInputOneChange} />
-          <Input type="number" value={formState.amount[Side.TWO] || ''} onChange={handleInputTwoChange} />
-        </div>
-
-        {dailyRates && (
-          <ResponsiveContainer width="99%" height={300}>
-            <AreaChart data={dailyRates} margin={{ top: 10, right: 25, bottom: 10, left: 10 }}>
-              <defs>
-                <linearGradient id="colorRates" x1="0" y1="0" x2="0" y2="1">
-                  <stop offset="5%" stopColor={strokeColor} stopOpacity={0.8} />
-                  <stop offset="95%" stopColor={strokeColor} stopOpacity={0} />
-                </linearGradient>
-              </defs>
-              <CartesianGrid stroke="#f1f1f1" vertical={false} />
-              <XAxis
-                dataKey="name"
-                interval={4}
-                axisLine={{ stroke: '#c0c0c0' }}
-                tickLine={{ stroke: '#c0c0c0' }}
-                tick={{ fontSize: 12 }}
-              />
-              <YAxis
-                type="number"
-                domain={YAxisDomain}
-                width={40}
-                axisLine={{ stroke: '#c0c0c0' }}
-                tickLine={{ stroke: '#c0c0c0' }}
-                tick={{ fontSize: 12 }}
-              />
-              <Tooltip />
-              <Area
-                type="linear"
-                dataKey="value"
-                stroke={strokeColor}
-                strokeWidth={2}
-                fillOpacity={1}
-                fill="url(#colorRates)"
-              />
-            </AreaChart>
-          </ResponsiveContainer>
-        )}
-      </main>
-    </div>
+      {dailyRates && (
+        <ResponsiveContainer width="99%" height={300}>
+          <AreaChart data={dailyRates} margin={{ top: 10, right: 25, bottom: 10, left: 10 }}>
+            <defs>
+              <linearGradient id="colorRates" x1="0" y1="0" x2="0" y2="1">
+                <stop offset="5%" stopColor={strokeColor} stopOpacity={0.8} />
+                <stop offset="95%" stopColor={strokeColor} stopOpacity={0} />
+              </linearGradient>
+            </defs>
+            <CartesianGrid stroke="#f1f1f1" vertical={false} />
+            <XAxis
+              dataKey="name"
+              interval={4}
+              axisLine={{ stroke: '#c0c0c0' }}
+              tickLine={{ stroke: '#c0c0c0' }}
+              tick={{ fontSize: 12 }}
+            />
+            <YAxis
+              type="number"
+              domain={YAxisDomain}
+              width={40}
+              axisLine={{ stroke: '#c0c0c0' }}
+              tickLine={{ stroke: '#c0c0c0' }}
+              tick={{ fontSize: 12 }}
+            />
+            <Tooltip />
+            <Area
+              type="linear"
+              dataKey="value"
+              stroke={strokeColor}
+              strokeWidth={2}
+              fillOpacity={1}
+              fill="url(#colorRates)"
+            />
+          </AreaChart>
+        </ResponsiveContainer>
+      )}
+    </>
   );
 };
