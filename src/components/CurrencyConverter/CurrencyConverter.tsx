@@ -17,6 +17,8 @@ import {
 } from './converterReducer/converterReducer';
 import { DailyRatesTrend, getDailyRatesTrend } from './CurrencyConverter.utils';
 
+const DATA_STALE_TIME = 10 * 60 * 1000; // 10 min
+
 const selectItems = Object.values(Currency)
   .map(symbol => ({
     label: CurrencyNameMap[symbol],
@@ -52,6 +54,7 @@ export const CurrencyConverter = () => {
     {
       enabled: Boolean(formState.symbol[Side.ONE] && formState.symbol[Side.TWO]),
       onSuccess: handleRateLoaded,
+      staleTime: DATA_STALE_TIME,
     },
   );
 
@@ -60,6 +63,7 @@ export const CurrencyConverter = () => {
     dailyRatesFetcher,
     {
       enabled: Boolean(formState.symbol[Side.ONE] && formState.symbol[Side.TWO]),
+      staleTime: DATA_STALE_TIME,
     },
   );
 
