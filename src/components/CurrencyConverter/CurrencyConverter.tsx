@@ -153,7 +153,7 @@ export const CurrencyConverter = () => {
               tickLine={{ stroke: '#c0c0c0' }}
               tick={{ fontSize: 12 }}
             />
-            <Tooltip />
+            <Tooltip isAnimationActive={false} />
             <Area
               type="linear"
               dataKey="value"
@@ -161,6 +161,7 @@ export const CurrencyConverter = () => {
               strokeWidth={2}
               fillOpacity={1}
               fill="url(#colorRates)"
+              name="Rate"
             />
           </AreaChart>
         </ResponsiveContainer>
