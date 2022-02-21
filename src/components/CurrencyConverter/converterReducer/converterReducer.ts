@@ -73,7 +73,7 @@ const getDestinationSideAmount = (state: ConverterState, rate: number | undefine
   if (state.sourceSide && destinationRate) {
     const sourceAmount = state.amount[state.sourceSide];
 
-    destinationSideAmount = sourceAmount && sourceAmount * destinationRate;
+    destinationSideAmount = sourceAmount && (sourceAmount * destinationRate).toFixed(2);
   }
 
   return destinationSideAmount;
