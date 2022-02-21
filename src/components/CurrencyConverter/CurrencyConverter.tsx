@@ -5,7 +5,7 @@ import { AxisDomain } from 'recharts/types/util/types';
 
 import { currencyRateFetcher } from 'api/currencyRate';
 import { DailyRate, dailyRatesFetcher } from 'api/dailyRates';
-import { Currency, CurrencyNameMap } from 'api/types';
+import { Currency } from 'api/types';
 import { Input } from 'components/Input/Input';
 import { Select } from 'components/Select/Select';
 
@@ -15,26 +15,11 @@ import {
   initialConverterState,
   Side,
 } from './converterReducer/converterReducer';
-import { DailyRatesTrend, getDailyRatesTrend } from './CurrencyConverter.utils';
+import { DailyRatesTrend, getCurrencySelectItems, getDailyRatesTrend } from './CurrencyConverter.utils';
 
 const DATA_STALE_TIME = 10 * 60 * 1000; // 10 min
 
-const selectItems = Object.values(Currency)
-  .map(symbol => ({
-    label: CurrencyNameMap[symbol],
-    value: symbol,
-  }))
-  .sort((a, b) => {
-    if (a.label < b.label) {
-      return -1;
-    }
-
-    if (a.label > b.label) {
-      return 1;
-    }
-
-    return 0;
-  });
+const selectItems = getCurrencySelectItems();
 
 export const CurrencyConverter = () => {
   const [formState, dispatch] = useReducer(converterReducer, initialConverterState);
