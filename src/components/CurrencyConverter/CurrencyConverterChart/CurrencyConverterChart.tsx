@@ -45,7 +45,7 @@ export const CurrencyConverterChart = (props: CurrencyConverterChartProps) => {
       )}
       {dailyRates && (
         <ResponsiveContainer width="99%" height={300}>
-          <AreaChart data={dailyRates} margin={{ top: 10, right: 20, bottom: 0, left: 10 }}>
+          <AreaChart data={dailyRates} margin={{ top: 10, right: 10, bottom: 0, left: 10 }}>
             <defs>
               <linearGradient id="colorRates" x1="0" y1="0" x2="0" y2="1">
                 <stop offset="5%" stopColor={strokeColor} stopOpacity={0.8} />
@@ -55,7 +55,7 @@ export const CurrencyConverterChart = (props: CurrencyConverterChartProps) => {
             <CartesianGrid stroke="#f1f1f1" vertical={false} />
             <XAxis
               dataKey="name"
-              interval={6}
+              interval={9}
               axisLine={{ display: 'none' }}
               tickLine={{ display: 'none' }}
               tick={{ fontSize: 12, fill: '#bababa' }}

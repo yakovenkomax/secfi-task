@@ -1,3 +1,5 @@
+import add from 'date-fns/add';
+import isAfter from 'date-fns/isAfter';
 import { QueryFunction } from 'react-query/types/core/types';
 
 import { fetcher } from 'api/fetcher';
@@ -46,13 +48,15 @@ export const dailyRatesFetcher: QueryFunction<DailyRate[]> = async params => {
   }
 
   const dailyRates = dailyRatesData['Time Series FX (Daily)'];
+
+  const monthAgoDate = add(new Date(Date.now()), { days: -31 });
   const dailyRatesArray = Object.keys(dailyRates)
+    .filter(key => isAfter(new Date(key), monthAgoDate))
+    .reverse()
     .map(key => ({
       name: new Date(key).toLocaleString('default', { month: 'short', day: 'numeric' }),
       value: Number(dailyRates[key]['4. close']),
-    }))
-    .slice(0, 29)
-    .reverse();
+    }));
 
   return dailyRatesArray;
 };
