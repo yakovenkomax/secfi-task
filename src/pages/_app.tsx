@@ -5,11 +5,12 @@ import type { AppProps } from 'next/app';
 import { QueryClient, QueryClientProvider } from 'react-query';
 
 const DATA_STALE_TIME = 10 * 60 * 1000; // 10 min
+const ERROR_RETRY_DELAY = 10 * 1000; // 10 sec
 
 const queryClient = new QueryClient({
   defaultOptions: {
     queries: {
-      retry: false,
+      retryDelay: ERROR_RETRY_DELAY,
       refetchOnWindowFocus: false,
       refetchOnReconnect: false,
       refetchOnMount: false,
