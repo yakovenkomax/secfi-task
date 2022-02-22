@@ -1,34 +1,26 @@
 This is a [Next.js](https://nextjs.org/) project bootstrapped with [`create-next-app`](https://github.com/vercel/next.js/tree/canary/packages/create-next-app).
 
-## Getting Started
+## Installation
 
-First, run the development server:
+- Install [Node.js](https://nodejs.org/en/download/);
+- Install the dependencies:
+    ```bash
+    npm install
+    ```
+- Copy the `./.env.template` file to `./.env.local`, put your [Alphavantage](https://www.alphavantage.co/) API key to the `NEXT_PUBLIC_API_KEY` variable;
+- Run the development server:
+    ```bash
+    npm run dev
+    ```
 
-```bash
-npm run dev
-# or
-yarn dev
-```
+## Task Description
+The idea is to create an interactive web application that allows users to display exchange rates over time, using [https://www.alphavantage.co/](https://www.alphavantage.co/). The assignment doesn't have a hard time limit but we also don't want to take too much of your time, so try to spend a maximum of 4/5 hours on it.
+Inputs of the app should be a base currency, a target currency, and an amount for the base currency. As a result, it should display the input amount converted from base to target currency (using the Alpha Vantage CURRENCY_EXCHANGE_RATE function), and a graph showing the historical rates for the past 30 days (using the Alpha Vantage FX_DAILY function).
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+## Task Requirements
+Try to implement these features keeping the following requirements in mind:
 
-You can start editing the page by modifying `pages/index.tsx`. The page auto-updates as you edit the file.
-
-[API routes](https://nextjs.org/docs/api-routes/introduction) can be accessed on [http://localhost:3000/api/hello](http://localhost:3000/api/hello). This endpoint can be edited in `pages/api/hello.ts`.
-
-The `pages/api` directory is mapped to `/api/*`. Files in this directory are treated as [API routes](https://nextjs.org/docs/api-routes/introduction) instead of React pages.
-
-## Learn More
-
-To learn more about Next.js, take a look at the following resources:
-
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
-
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js/) - your feedback and contributions are welcome!
-
-## Deploy on Vercel
-
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
-
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/deployment) for more details.
+- It should be built using TypeScript and React. If you have reasons to use another stack, let's discuss
+- It should have a good looking, easy to understand interface. Show off some of your amazing skills
+- It should minimize the number of API requests to make the app as efficient as possible
+- It should be built with flexibility in mind, for example being able to switch data provider easily
