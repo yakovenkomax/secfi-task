@@ -1,4 +1,10 @@
+# Secfi test assignment
+
 [Live Demo](https://secfi-task.vercel.app/)
+
+<p align="center">
+  <img width="612" alt="Preview" src="https://user-images.githubusercontent.com/5172360/155219703-d123332c-bfbd-43f4-af1a-e38c4b5a83da.gif">
+</p>
 
 This is a [Next.js](https://nextjs.org/) project bootstrapped with [`create-next-app`](https://github.com/vercel/next.js/tree/canary/packages/create-next-app).
 
