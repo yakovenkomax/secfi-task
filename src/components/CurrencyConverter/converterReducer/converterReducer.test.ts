@@ -1,13 +1,13 @@
 import { Currency } from 'api/types';
+import { converterReducer } from 'components/CurrencyConverter/converterReducer/converterReducer';
 import {
-  converterReducer,
   ConverterState,
   ConverterActionType,
   SetCurrencyAction,
   SetAmountAction,
   UpdateRateAction,
   Side,
-} from 'components/CurrencyConverter/converterReducer/converterReducer';
+} from 'components/CurrencyConverter/CurrencyConverter.types';
 
 const emptyState: ConverterState = {
   symbol: {

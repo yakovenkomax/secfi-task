@@ -1,6 +1,7 @@
+import classNames from 'classnames';
 import { ChangeEventHandler } from 'react';
 
-import ArrowSvg from './arrow.svg';
+import ArrowSvg from 'components/Select/images/arrow.svg';
 
 export type SelectItem = {
   label: string;
@@ -18,12 +19,20 @@ const EMPTY_VALUE = '';
 
 export const Select = (props: SelectProps) => {
   const { items, value = EMPTY_VALUE, placeholder, onChange } = props;
+  const isPlaceholderSelected = value === EMPTY_VALUE;
 
   return (
     <div className="relative">
-      <select className="input pr-8 w-full h-full items-center" value={value} onChange={onChange}>
+      <select
+        className={classNames(
+          'input pr-10 w-full h-full whitespace-nowrap',
+          isPlaceholderSelected && 'text-neutral-300',
+        )}
+        value={value}
+        onChange={onChange}
+      >
         {placeholder && (
-          <option key="placeholder" value={EMPTY_VALUE}>
+          <option disabled key="placeholder" value={EMPTY_VALUE}>
             {placeholder}
           </option>
         )}
@@ -33,7 +42,7 @@ export const Select = (props: SelectProps) => {
           </option>
         ))}
       </select>
-      <ArrowSvg className="absolute right-1 top-1/2 -mt-4 w-8 h-8 fill-neutral-400 pointer-events-none" />
+      <ArrowSvg className="absolute right-4 top-1/2 -mt-2 w-4 h-4 fill-neutral-400 pointer-events-none" />
     </div>
   );
 };
