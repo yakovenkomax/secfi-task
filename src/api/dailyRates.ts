@@ -43,10 +43,6 @@ export const dailyRatesFetcher: QueryFunction<DailyRate[]> = async params => {
     to_symbol,
   });
 
-  if (!dailyRatesData || !('Time Series FX (Daily)' in dailyRatesData)) {
-    throw new Error('API limit exceeded');
-  }
-
   const dailyRates = dailyRatesData['Time Series FX (Daily)'];
 
   const monthAgoDate = add(new Date(Date.now()), { days: -31 });

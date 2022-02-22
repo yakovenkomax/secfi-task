@@ -1,10 +1,6 @@
 import qs from 'qs';
 
-type ApiLimitExceededError = {
-  Note: string;
-};
-
-type Fetcher = <T>(params: Record<string, string>) => Promise<T | ApiLimitExceededError>;
+type Fetcher = <T>(params: Record<string, string>) => Promise<T>;
 
 export const fetcher: Fetcher = async params => {
   const query = qs.stringify(params);
@@ -15,6 +11,14 @@ export const fetcher: Fetcher = async params => {
   }
 
   const data = await response.json();
+
+  if ('Error Message' in data) {
+    throw new Error('API error');
+  }
+
+  if ('Note' in data) {
+    throw new Error('API limit exceeded');
+  }
 
   return data;
 };

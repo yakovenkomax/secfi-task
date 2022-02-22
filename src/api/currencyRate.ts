@@ -31,10 +31,6 @@ export const currencyRateFetcher: QueryFunction<number> = async params => {
     to_currency,
   });
 
-  if (!currencyRateData || !('Realtime Currency Exchange Rate' in currencyRateData)) {
-    throw new Error('API limit exceeded');
-  }
-
   const rate = Number(currencyRateData['Realtime Currency Exchange Rate']['5. Exchange Rate']);
 
   return rate;
