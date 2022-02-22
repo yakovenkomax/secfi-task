@@ -87,7 +87,7 @@ export const CurrencyConverterCalculator = (props: CurrencyConverterCalculatorPr
   };
 
   return (
-    <div className="grid grid-cols-2 grid-rows-2 gap-4">
+    <div className="grid grid-cols-2 grid-rows-2 gap-x-4 gap-y-4 md:gap-x-6">
       <Select
         items={selectItems}
         value={converterState.symbol[Side.ONE]}
